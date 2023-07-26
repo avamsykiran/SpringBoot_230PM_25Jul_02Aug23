@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.cts.sid.service.Counter;
+import com.cts.sid.ui.HomeUI;
 
 public class SpringIocDemoApplication {
 
@@ -19,6 +20,8 @@ public class SpringIocDemoApplication {
 		System.out.println(c2.nextCount());
 		System.out.println(c2.nextCount());
 		
+		HomeUI ui = (HomeUI) context.getBean("homeUI");
+		ui.run();
 	}
 
 }

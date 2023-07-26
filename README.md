@@ -191,3 +191,69 @@ Spring Boot 2.x as packed with Spring 5.x
                 } 
 
 
+    Spring Boot
+
+        is a spring framework module that offer RAD through auto-configuration.
+
+        RAD - Rapid Application Development.
+
+        spring boot chooses standard project strucutre over customization
+
+            @SpringBootApplication  =   @Configuration
+                                        @ComponentScan  //the package in which the sping application exists is base package
+                                        @PropertySource //application.proeprties from classpath
+                                        @AutoConfig
+
+        spring boot also depends on specail spring modules likes starter-modules
+        Where each starter module is a min config + the actual module.
+
+        Spring Boot offers Embed Server.
+
+        As as result we end up developing server-less application.
+
+        Spring Boot Application can be created in three ways:
+
+        1. STS spring starter project wizard.
+        2. start.spring.io
+        3. spring boot cli
+
+
+        SpringApplication.run(SpringIocBootDemoApplication.class, args);
+
+                1. Create an appropriate ApplicationContext
+                2. Search and Execute any Spring Runners
+                3. Identify and Start any embeded server
+                4. Once the server gets stopped
+                5. The ApplicationContext is closed and the application terminates.
+
+        Spring Runners
+            CommandLineRunner       public void run(String args[])
+            ApplicationRunner       public void run(ApplicationArgs args)
+
+    Spring Web MVC on Spring Boot
+
+        M - Model
+        V - View
+        C - Controller
+
+        MVC Archetecture
+
+        Database <-SQL--> Rep(S)  <--model--> Service(S) <--model-->  Controller(S)    <----REQ---- WebClient
+                                                                        |                               ↑
+                                                                        |}model                         |
+                                                                        |                               |
+                                                                        |                               |
+                                                                        ↓                               |
+                                                                      View      -----(html) Resp -----> |
+
+
+        Single Front Controller MVC Archetecture  Offered By Spring Web Module  
+
+        Database <-SQL-> Rep(S)  <-model-> Service(S) <-model->  Controller(S) <--> FrontController   <----REQ---- WebClient
+                                                                                        |                               ↑
+                                                                                        |}model                         |
+                                                                                        |                               |
+                                                                                        |                               |
+                                                                                        ↓                               |
+                                                                                      View      -----(html) Resp -----> |
+                                                                                
