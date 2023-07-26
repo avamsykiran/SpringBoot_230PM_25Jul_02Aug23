@@ -1,0 +1,15 @@
+package com.cts.sid.service;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+@Service
+public class Counter {
+	
+	@Value("${com.cts.sid.service.counter.seed}")
+	private int count;
+	
+	public int nextCount() {
+		return ++count;
+	}
+}

@@ -1,0 +1,5 @@
+package com.cts.sid.service;
+
+public interface GreetingService {
+
+}
