@@ -256,4 +256,113 @@ Spring Boot 2.x as packed with Spring 5.x
                                                                                         |                               |
                                                                                         ↓                               |
                                                                                       View      -----(html) Resp -----> |
-                                                                                
+
+        FrontController?
+
+                    DispatcherServlet serve as the Front Controller.
+
+                    Spring Web MVC on Spring Boot will auto config the DispatcherServlet to receive
+                    any req sent to the context root path (/*.*)
+
+                    DispatcherServlet depending on the url-path of the request will pass the request to
+                    one of the controllers along with the data extracted from the request.
+
+                    Once a controller completes the request processing, it is expected to return 
+                    a ModelAndView object or a viewName as a string to the DispatcherServlet (FC).
+
+                    DispatcherServlet (FC) will pass the model if any to the view identified by
+                    the givne viewName, and that view is rendered as htmla nd sent as a response to the client.
+
+        Controller?
+
+                    is any POJO thats marked with @Controller
+
+                    Each controller calss is also marked with @ReqeustMapping("url")
+
+                    Infact, the DispatcherServlet will take the help of SimpleUrlHandletResolver class
+                    (which is implementing UrlHandlerResolver interface) to map a controller with its
+                    URL. And the SimpleUrlHandlerResolver will scan for @RequestMApping for the same.
+
+                    Each controller can have method to handle request and such methods are called actions.
+                    These actions must return a String for viewName or an object of ModelAndView that
+                    contain a viewName and models.
+
+                    @Controller
+                    @RequestMapping("/emps")
+                    public class EmployeeController {
+
+                        @Autowired
+                        private EmployeeService empService;
+
+                        @RequestMapping(value="/list",method=RequestMethod.GET)
+                        public ModelAndView getAllEmployees(){
+                            List<Employee> emps = empService.getAll();
+                            return new ModelAndView("emps-list-page","empData",emps);
+                        }
+                    }
+
+                    As and when the DispatcherServlet gets a request of URL http://localhost:8888/emps/list,
+                    the above method gets executed and the modelAndView is received by the DispatcherServlet.
+
+        ViewResolver?
+
+                    ViewResolver interface helps the DispatcherServlet to pick up a view for a given viewName.
+                        |
+                        |<- MessageBundleResourceViewResolver
+                        |<- XmlResoureceViewResolver
+                        |<- InternalResourceViewResolver
+
+                    Spring Boot auto configs InternalResourceViewResolver for ThymeLeaf view engine.
+                    The below are two properties of InternalResourceViewResolver
+                            prefix
+                            suffix
+
+                    View = prefix + viewName + suffix
+
+                    if ".jsp" is the suffix and "/WEB-INF/pages" is the prefix then for a viewName "emps-list-page"
+                    the view will be "/WEB-INF/pages/emps-list-page.jsp"
+
+    Spring Data JPA
+        
+        Spring Data moduel spanning into sub modules like Spring Data JPa, Spring Data NoSQL ...etc., are modules
+        that offer auto implemented repositories.
+
+        Particularly Spring Data JPA offers auot implemnted JPA based repositories.
+
+        CrudRepository
+            | <- JpaRepository
+                        List<E> findAll()
+                        E findById(PK idValue)
+                        E save(E obj);
+                        boolean existsById(PK idVlaue);
+                        void deleteById(PK idValue);
+
+        @Entity
+        @Table(name="emps")
+        public class Employee {
+
+            @Id
+            private Long empId;
+            @Column(name="ename")
+            private String name;
+            private LcoalDate joinDate;
+            private Double salary;
+            private String email;
+
+            //construcotrs, getter/setter, ......
+
+        }
+
+
+        public interface EmployeeRepo extends JpaRepository<Employee,Long> {
+            List<Employee> findAllByName(String name);
+            Employee findByEmail(String email);
+            boolean existsByEmail(String email);
+
+            @Query("SELECT e FROM Employee e WHERE e.salary BETWEEN :limit1 AND :limit2")
+            List<Employee> getAllEmployeesOfSalaryInRange(double limit1,double limit2);
+
+        }
+
+
+
