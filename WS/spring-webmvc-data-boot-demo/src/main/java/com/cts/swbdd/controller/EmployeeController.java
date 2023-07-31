@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cts.swbdd.entity.Employee;
@@ -39,9 +40,36 @@ public class EmployeeController {
 			mv = new ModelAndView("emps/emp-form-page","emp",emp);
 		} else {
 			empService.add(emp);
-			mv = getAllEmployeesAction();
+			//mv = getAllEmployeesAction();
+			mv = new ModelAndView("redirect:/emps/list");
 		}
 		
 		return mv;
+	}
+	
+	@GetMapping("/edit")
+	public ModelAndView showEmployeeFormActionToEdit(@RequestParam("empId") long empId) {
+		return new ModelAndView("emps/emp-form-page","emp",empService.getEmployee(empId));
+	}
+		
+	@PostMapping("/edit")
+	public ModelAndView updateEmployeeAction(@ModelAttribute("emp") @Valid Employee emp,BindingResult br) {
+		ModelAndView mv = null;
+
+		if(br.hasErrors()) {
+			mv = new ModelAndView("emps/emp-form-page","emp",emp);
+		} else {
+			empService.update(emp);
+			//mv = getAllEmployeesAction();
+			mv = new ModelAndView("redirect:/emps/list");
+		}
+		
+		return mv;
+	}
+	
+	@GetMapping("/del")
+	public String deletingEmployeeAction(@RequestParam("empId") long empId) {
+		empService.delete(empId);
+		return "redirect:/emps/list";
 	}
 }
