@@ -353,7 +353,6 @@ Spring Boot 2.x as packed with Spring 5.x
 
         }
 
-
         public interface EmployeeRepo extends JpaRepository<Employee,Long> {
             List<Employee> findAllByName(String name);
             Employee findByEmail(String email);
@@ -364,5 +363,70 @@ Spring Boot 2.x as packed with Spring 5.x
 
         }
 
+    Integrating Spring Boot With Thymeleaf
+
+        Thymeleaf is another view engine. Thymeleaf are versatile meaning, we cna use thymelaf on Xml/Html/even plain text documents
+        to wrpa the dynamcially generated content over a mdoel of data. Thymeleaf is very light weight and faster in
+        rendering compaed to native view engines like JSP/JSF.
+
+    
+    Spring Rest API
+
+        REST API is a webservice based on HTTP Protocol, hence the name REpresentational State Transfer.
+
+        Web Service ?
+
+            is a method pubblished on a centralized server that get invoked through a request and returns via a response.
+
+                                                        | <----- a Standalone GUI based APP     <------>  End User
+            Database <---> WEB-SERVICE <------------->  | <----- a Web-APP                      <------>  End User
+                                                        | <----- a Mobile APP                   <------>  End User
+
+            SOAP Web Service
+
+                + the web services were invokable via SOAP protocol. (Simple Object Access Protocol)
+                + xml was used the media of communication for passing aprameters to the web-service and also
+                  for the web service to return back data.
 
 
+                - XML is very limited in media support, for example binary data like images/docuemtns
+                    can not transported via XML
+                - We do not have a standered concern addressing system like a systme where the compeltion of the request or
+                    the abortion of a request and teh relvent error can be reported to the client.
+
+            REST Web Services / REST API
+
+                + This is based on HTTP Protocol.
+                + As the http protocol support all sorts of media, It is possible to transport any sort of data
+                  like binary/text/numeric/object ...et.
+                + HTTP Methods provide us a standrd way of operations using a single end-point.
+                + HTTP Protocol offers a re-established wy of communicating the request and resposne status through which
+                    the successful completion of operation / errorsome abortion of operation can be passed to the client
+
+
+                REST API STANDARDS
+
+                Assuming an entity Book, if we have to create a REST API to perform CRUD operations, the below
+                standards are expected:
+
+                end-point is :  /books
+
+                                                                                                                            Error Status 
+                Operation           Http Method     URL-Pattern             Response            Sucess Status     Client Side           Server Side      
+                -----------------------------------------------------------------------------------------------------------------------------------------------
+                Retrive All         GET             /books                  JSON/XML            OK-200             400 - BadRequest    500 - Internal 
+                                                                                                                                                Server Error
+
+                Retrive By Id       GET             /books/{bookId}         JSON/XML            OK-200             404 - NotFound      500 - Internal 
+                                                                                                                                                Server Error
+
+                Add Record          POST            /books                  JSON/XML            CREATED-201        400 - BadReqeust    500 - Internal 
+                                                                                                                                                Server Error
+
+                Update              PUT             /books/{bookId}         JSON/XML            ACCEPTED-203       400 - BadReqeust    500 - Internal 
+                                                                                                                                                Server Error
+
+                Delete By Id        DELETE          /books/{bookId}                             NOContent-204      404 - NotFound      500 - Internal 
+                                                                                                                                                Server Error
+
+            To test our rest api, we can use rest api cleitns like POSTMAN / INSOMNIA ...etc.,
