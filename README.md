@@ -431,4 +431,51 @@ Spring Boot 2.x as packed with Spring 5.x
 
             To test our rest api, we can use rest api cleitns like POSTMAN / INSOMNIA ...etc.,
 
+    Spring Profiles
+
+        Profile?
+            an isolated set of configuaratiosna nd choice of components for executing our application in specific
+            stage or environment.
+
+            dev,testing,deployment/production ...etc.,
+
+        @Profile("")
+            is apllied on a component or a configuaration class.
+
+        application.properties
+            spring.profiles.active=dev
+
+        application-dev.properties
+        application-test.proeprties
+        application-prod.properties
+
+        application.properties
+            spring.profiles.active=dev
+
+            spring.jpa.show-sql = false
+            spring.jpa.hibernate.ddl-auto = update
+
+            #---
+            spring.config.activate.on-profile=dev
+            server.port = 8888
+            spring.datasource.url = jdbc:h2:mem:db
+            spring.datasource.driver-class-name=org.h2.driver
+            spring.datasource.username = sa
+            spring.datasource.password = sa           
             
+            #---
+            spring.config.activate.on-profile=prod
+            server.port = 9999
+            spring.datasource.url = jdbc:mysql://localhost:3306/hrappdb
+            spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+            spring.datasource.username = root
+            spring.datasource.password = root           
+            spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL8Dialect
+
+    ECommerce CaseStudy - CRUD operation via REST api on the entity:
+        Item
+            itemId          Long
+            name            String
+            price           Double
+            packageDate     LaocalDate
+
